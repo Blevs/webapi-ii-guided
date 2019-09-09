@@ -11,16 +11,18 @@ module.exports = {
   findHubMessages,
   findMessageById,
   addMessage,
+  insert,
+  insertMessage
 };
 
 function find(query) {
-  const { page = 1, limit = 2, sortby = 'id', sortdir = 'asc' } = query;
-  const offset = limit * (page - 1);
+  // const { page = 1, limit = 2, sortby = 'id', sortdir = 'asc' } = query;
+  // const offset = limit * (page - 1);
 
-  let rows = db('hubs')
-    .orderBy(sortby, sortdir)
-    .limit(limit)
-    .offset(offset);
+  let rows = db('hubs');
+    // .orderBy(sortby, sortdir)
+    // .limit(limit)
+    // .offset(offset);
 
   return rows;
 }
@@ -29,6 +31,10 @@ function findById(id) {
   return db('hubs')
     .where({ id })
     .first();
+}
+
+function insert(hub) {
+  return db('hubs').insert(hub).then(([id]) => id);
 }
 
 async function add(hub) {
@@ -61,6 +67,10 @@ function findMessageById(id) {
   return db('messages')
     .where({ id })
     .first();
+}
+
+function insertMessage(message) {
+  return db('messages').insert(message).then(([id]) => id);
 }
 
 async function addMessage(message) {
